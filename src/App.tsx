@@ -4,6 +4,7 @@ import Offline from '@/ui/Offline'
 import { lazy, Suspense, useEffect } from 'react'
 import { Navigate, NavLink, Outlet, Route, Routes, Link, useLocation } from 'react-router-dom'
 import { LayoutDashboard, ArrowLeftRight, Send, CreditCard, PiggyBank, Shield, Moon, Sun, LogOut, Settings as SettingsIcon, Wallet, LineChart, CalendarClock } from 'lucide-react'
+import type { LucideIcon } from 'lucide-react'
 import { useAuth, useTheme, useCurrency } from '@/store'
 import Notifications from '@/ui/Notifications'
 import SessionGuard from '@/ui/SessionGuard'
@@ -26,8 +27,8 @@ import { Toaster } from '@/ui/extra'
 function Shell() {
   const { user, logout } = useAuth(); const { dark, toggle } = useTheme(); const { cur, set: setCur } = useCurrency(); const loc = useLocation()
   if (!user) return <Navigate to="/login" replace />
-  const links = [['/', 'Dashboard', LayoutDashboard], ['/transactions', 'Transactions', ArrowLeftRight], ['/transfer', 'Transfer', Send], ['/cards', 'Cards', CreditCard], ['/budgets', 'Budgets', PiggyBank], ['/accounts', 'Accounts', Wallet], ['/insights', 'Insights', LineChart], ['/bills', 'Bills', CalendarClock], ['/settings', 'Settings', SettingsIcon],
-    ...(user.role === 'Admin' ? [['/admin', 'Admin', Shield]] : [])] as const
+  const links: [string, string, LucideIcon][] = [['/', 'Dashboard', LayoutDashboard], ['/transactions', 'Transactions', ArrowLeftRight], ['/transfer', 'Transfer', Send], ['/cards', 'Cards', CreditCard], ['/budgets', 'Budgets', PiggyBank], ['/accounts', 'Accounts', Wallet], ['/insights', 'Insights', LineChart], ['/bills', 'Bills', CalendarClock], ['/settings', 'Settings', SettingsIcon],
+    ...(user.role === 'Admin' ? [['/admin', 'Admin', Shield] as [string, string, LucideIcon]] : [])]
   return (
     <div className="flex min-h-screen flex-col md:flex-row">
       <aside className="bg-brand-900 p-3 text-white md:w-60 md:p-5">
